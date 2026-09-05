@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Nuxt Tauri App'
+  short_description: 'Build coordinated Nuxt and Tauri applications'
+  default_prompt: 'Use $nuxt-tauri-app to improve this repository.'
