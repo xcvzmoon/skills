@@ -1,0 +1,4 @@
+interface:
+  display_name: 'TypeScript Quality Gates'
+  short_description: 'Create evidence-driven TypeScript quality gates'
+  default_prompt: 'Use $typescript-quality-gates to improve this repository.'
