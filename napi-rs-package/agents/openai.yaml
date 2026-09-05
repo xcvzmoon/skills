@@ -1,0 +1,4 @@
+interface:
+  display_name: 'NAPI-RS Package'
+  short_description: 'Ship portable Rust-powered Node packages'
+  default_prompt: 'Use $napi-rs-package to improve this repository.'
