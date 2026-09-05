@@ -6,6 +6,7 @@ export default defineConfig({
       typeAware: true,
       typeCheck: true,
     },
+    ignorePatterns: ['.agents/**', '.codex/**', '**/assets/**'],
   },
   fmt: {
     sortImports: {
@@ -22,5 +23,6 @@ export default defineConfig({
     },
     sortPackageJson: false,
     singleQuote: true,
+    ignorePatterns: ['.agents/**', '.codex/**'],
   },
 });
