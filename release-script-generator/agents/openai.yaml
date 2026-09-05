@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Release Script Generator'
+  short_description: 'Create repository-aware release automation'
+  default_prompt: 'Use $release-script-generator to create a release script for this repository.'
