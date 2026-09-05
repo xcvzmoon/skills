@@ -17,3 +17,23 @@ Installable agent skills distilled from working software and maintained engineer
 | [`xcvzmoon-code-conventions`](./xcvzmoon-code-conventions/)   | Shared editing, TypeScript, validation, toolchain, and agent-operation rules                        |
 
 Each directory is a self-contained skill with a required `SKILL.md` and optional instructions loaded only for relevant workflows.
+
+## Install
+
+Install one skill from this repository with the `skills` CLI:
+
+```sh
+npx skills add https://github.com/xcvzmoon/skills --skill github-repository-files
+```
+
+Replace `github-repository-files` with the directory name of the skill you need. To install every skill:
+
+```sh
+npx skills add https://github.com/xcvzmoon/skills --skill '*'
+```
+
+Use the equivalent `vpx`, `pnpx`, `bunx`, or `yarn dlx` command when that is the repository's active package manager.
+
+The repository must be pushed to GitHub before others can install it. Public repositories work without additional credentials. Private repositories require GitHub authentication with access to the repository.
+
+The `oxc-project-config` skill requires the maintained [`install-anti-slop`](https://www.skills.sh/dmmulroy/anti-slop/install-anti-slop) skill and will ask before installing or updating it when it is not available.
