@@ -1,0 +1,4 @@
+interface:
+  display_name: 'TypeScript Git Hooks'
+  short_description: 'Generate repository-aware TypeScript Git hooks'
+  default_prompt: 'Use $typescript-git-hooks to configure this repository.'

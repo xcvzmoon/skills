@@ -1,0 +1,23 @@
+pre-commit:
+  parallel: true
+  jobs:
+    - name: format
+      glob: '*.{ts,vue,json,md,yml}'
+      run: bun run fmt {staged_files}
+      stage_fixed: true
+
+    - name: lint
+      glob: '*.{ts,vue}'
+      run: bun run lint {staged_files}
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: check
+      run: bun run check
+
+    - name: typecheck
+      run: bun run typecheck
+
+    - name: test
+      run: bun run test
