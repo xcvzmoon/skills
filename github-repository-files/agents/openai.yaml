@@ -1,0 +1,4 @@
+interface:
+  display_name: 'GitHub Repository Files'
+  short_description: 'Generate repository-aware .github configuration'
+  default_prompt: 'Use $github-repository-files to generate the appropriate .github files for this repository.'
