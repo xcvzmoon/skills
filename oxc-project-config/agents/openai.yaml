@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Oxc Project Config'
+  short_description: 'Install reusable Oxlint and Oxfmt policy'
+  default_prompt: 'Use $oxc-project-config to configure this repository.'

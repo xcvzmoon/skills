@@ -1,0 +1,42 @@
+# Adapting the Oxc baseline
+
+## Preserve the policy core
+
+Keep the baseline correctness, suspicious, performance, TypeScript, Unicorn, and import rules when their plugins apply. Keep every core `anti-slop` rule enabled. Framework-only rules are conditional:
+
+- retain Vue rules and the `vue` plugin only for Vue/Nuxt sources;
+- add the repository's React, Next.js, Vitest, Jest, JSX accessibility, Node, or other built-in plugins only when corresponding files and dependencies exist;
+- enable `anti-slop-effect/no-service-constructor-imports` only for Effect service/layer architecture, and register `tools/oxlint/anti-slop/effect/index.ts` under a distinct plugin name.
+
+Setting `plugins` replaces Oxlint's default plugin list, so list every intended built-in plugin.
+
+## Paths and ignores
+
+Always ignore vendored/generated agent-skill directories when repository policy treats them as immutable. Keep `tools/oxlint/anti-slop/**` out of the consumer rules only if linting the plugin against itself creates recursion or incompatible policy.
+
+Remove baseline ignores such as `worker-configuration.d.ts` when the target does not generate them. Add actual build output, generated types, coverage, and vendor paths. Do not ignore ordinary source directories to hide violations.
+
+Tailwind sorting should name the target's real stylesheet, attributes, and class helper functions. Omit Tailwind-specific formatting when Tailwind is absent. Preserve import ordering, single quotes, package-JSON ordering policy, single Vue attribute lines, and Vue script/style indentation unless a more specific repository convention overrides them.
+
+## Standalone commands
+
+Adapt scripts to the package manager while keeping distinct write/check modes, for example:
+
+- `fmt`: apply Oxfmt;
+- `fmt:check`: check without writing;
+- `lint`: run Oxlint with type-aware policy;
+- `lint:fix`: apply safe fixes;
+- `check`: run formatting check and lint/typecheck without rewriting the working tree;
+- `check:fix`: apply formatter and safe lint fixes.
+
+Do not define `fmt` as both write and check unless that is an explicit repository convention.
+
+## Vite+ mapping
+
+Move the `oxfmt.config.ts` object fields under `fmt` and the `oxlint.config.ts` object fields under `lint`. Preserve Vite+-specific lint plugins and rules such as its import preference. Register the local plugin with a specifier relative to the root `vite.config.ts`.
+
+Use Vite+ built-ins (`vp fmt`, `vp lint`, `vp check`) rather than adding redundant direct wrappers. Configure staged handling through Vite+ when that is the repository's chosen hook mechanism.
+
+## Compatibility checks
+
+Oxlint JavaScript plugins are version-sensitive. Verify `@oxlint/plugins` API compatibility and runtime support before copying. Run one command that actually loads the configuration; static YAML/TypeScript formatting does not prove the plugin can execute.
