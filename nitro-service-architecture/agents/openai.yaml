@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Nitro Service Architecture'
+  short_description: 'Structure typed production-ready Nitro services'
+  default_prompt: 'Use $nitro-service-architecture to improve this repository.'
