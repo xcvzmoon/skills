@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Vite+ Workspace'
+  short_description: 'Configure coherent Vite+ project toolchains'
+  default_prompt: 'Use $vite-plus-workspace to improve this repository.'
