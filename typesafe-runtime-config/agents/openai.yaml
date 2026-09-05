@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Typesafe Runtime Config'
+  short_description: 'Design validated typed runtime configuration'
+  default_prompt: 'Use $typesafe-runtime-config to improve this repository.'
