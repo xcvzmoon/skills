@@ -1,0 +1,25 @@
+{
+  "name": "skills",
+  "description": "Reusable set of instructions, knowledge, and optionally tools/resources of xcvzmoon",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "fmt": "vp fmt",
+    "lint": "vp lint",
+    "check": "vp check"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "bumpp": "^11.1.0",
+    "typescript": "^7.0.2",
+    "vite": "catalog:",
+    "vite-plus": "catalog:"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.3.4",
+      "onFail": "download"
+    }
+  }
+}
