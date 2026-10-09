@@ -1,0 +1,29 @@
+{
+  "skill_name": "drizzle-orm-rc",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a PostgreSQL users table and types/user.ts for a project pinned to drizzle-orm 1.0.0-rc.4 with Valibot and uuid installed. Include a UUIDv7 primary key, required name and email, and timestamps with soft deletion. There are no existing helpers; create reusable helpers. Derive select, insert, and update types and a public create request schema.",
+      "expected_output": "Plural users table; generator helpers preserving runtime UUIDv7 and timestamp semantics; bundled drizzle-orm/valibot imports; camelCase schemas and Valibot InferOutput types matching the user's pattern; explicit writable-field request schema; no ORM model inference types.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "In our RC.4 node-postgres app, implement a service that creates a project and its first membership atomically. Reuse existing db and audit-column generators. Actor and tenant come from authenticated context. Validate request input with Valibot. A missing membership result should abort both inserts. Show how a lower-level membership helper participates in the same transaction.",
+      "expected_output": "One outer db.transaction with all statements and membership helper using the same tx; input parsed once; actor and tenant assigned from trusted context; failure thrown through callback; returned rows narrowed without assertions; application types derived from Valibot; meaningful rollback validation.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Configure users/posts relational queries in a new PostgreSQL database package pinned to RC.4. We use pg Pool. Create the relations and client exports, plus a transaction-wrapped read of a user and their posts. Derive its response type from Valibot schemas rather than Drizzle inference. Include the shutdown lifecycle.",
+      "expected_output": "defineRelations with RC from/to syntax; drizzle object config with client and relations; verified RC relational options; tx used for the read; composed Valibot response schema with correct relation shape/nullability; InferOutput response type; pool reused and closed at shutdown.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Add transactional user updates to an existing project using drizzle-orm 0.45.4 and an HTTP-only driver. Use the RC skill, but do not upgrade dependencies. Accept a JSON patch and keep audit fields server-owned.",
+      "expected_output": "Detects stable version mismatch and does not emit unsupported RC imports or silently upgrade; inspects actual driver support before proposing transactions; identifies any unsupported atomic requirement; derives validation types from Valibot and separates public patch fields from server-owned fields.",
+      "files": []
+    }
+  ]
+}
