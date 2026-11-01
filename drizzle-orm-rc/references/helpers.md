@@ -1,14 +1,29 @@
 # Column generators
 
-The bundled `../assets/helpers/` directory contains the user's exact local
-`pipong` helpers. Prefer importing existing project helpers. When the project has
+The bundled `../assets/helpers/` directory contains helpers based on the user's local
+`pipong` helpers, plus a Bun-native UUID variant. Prefer importing existing project helpers. When the project has
 none, adapt these files into its database helper directory and export them through
 its established entry point. Do not import from the skill folder in application code.
 
 ## UUIDs
 
-`generateUuid(name?)` builds a UUID primary key with `uuid` package `v7` as a
-Drizzle `$defaultFn`. This default runs in application code; raw SQL inserts must
+`generateUuid(name?)` builds a UUID primary key with a UUIDv7
+Drizzle `$defaultFn`. Choose its implementation for the consuming runtime:
+
+- When the application runs on Bun and the deployed Bun version supports
+  `Bun.randomUUIDv7()`, prefer `assets/helpers/generate-uuid.bun.ts`. Copy it as
+  the project's `generate-uuid.ts`, preserving the existing helper export.
+  Use `$defaultFn(() => Bun.randomUUIDv7())` so each insert generates a fresh
+  UUID in the default string format. Ensure the project has Bun types available.
+  Do not add the `uuid` dependency solely for this helper.
+- For other runtimes, shared packages that must also run outside Bun, or Bun
+  versions without this API, use `assets/helpers/generate-uuid.ts` with the
+  `uuid` package's `v7`. Using Bun as a package manager alone does not establish
+  that the application runs on Bun.
+
+See [Bun's UUIDv7 documentation](https://bun.com/docs/runtime/utils#bunrandomuuidv7).
+
+This default runs in application code; raw SQL inserts must
 provide an ID. A database random UUID default changes this behavior and should
 not replace it incidentally.
 
@@ -47,5 +62,5 @@ The exact builder type exports used by the bundled helpers exist in RC.4 under
 `drizzle-orm/pg-core`. Recheck them when changing RC versions rather than copying
 old generic signatures from stable docs. Keep helper return types precise so
 validators retain default/nullability information. Adapt style and imports to
-the target repository; add `uuid` only if the project needs these helpers and
+the target repository; add `uuid` only if the selected runtime needs the fallback and
 does not already provide UUIDv7 generation.
