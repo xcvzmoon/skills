@@ -1,6 +1,10 @@
 # Source provenance
 
-Verified on 2026-10-09. The release used for this skill is
+The recommended version is `drizzle-orm@1.0.0-rc.5-5935859`.
+The source inspection below predates this recommendation; verify API differences
+against the recommended version before applying the examples.
+
+Verified on 2026-10-09. The release originally inspected for this skill was
 `v1.0.0-rc.4` / `748058e837d9c4247330e3d45580cbdae52bffda` from
 `https://github.com/drizzle-team/drizzle-orm`.
 Its `drizzle-orm/package.json` reports `1.0.0-rc.4`.

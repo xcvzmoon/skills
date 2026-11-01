@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Create a PostgreSQL users table and types/user.ts for a project pinned to drizzle-orm 1.0.0-rc.4 with Valibot and uuid installed. Include a UUIDv7 primary key, required name and email, and timestamps with soft deletion. There are no existing helpers; create reusable helpers. Derive select, insert, and update types and a public create request schema.",
+      "prompt": "Create a PostgreSQL users table and types/user.ts for a project pinned to drizzle-orm 1.0.0-rc.5-5935859 with Valibot and uuid installed. Include a UUIDv7 primary key, required name and email, and timestamps with soft deletion. There are no existing helpers; create reusable helpers. Derive select, insert, and update types and a public create request schema.",
       "expected_output": "Plural users table; generator helpers preserving runtime UUIDv7 and timestamp semantics; bundled drizzle-orm/valibot imports; camelCase schemas and Valibot InferOutput types matching the user's pattern; explicit writable-field request schema; no ORM model inference types.",
       "files": []
     },

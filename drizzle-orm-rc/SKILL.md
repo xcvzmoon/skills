@@ -5,8 +5,8 @@ description: Write application database code with Drizzle ORM 1.0 release candid
 
 # Drizzle ORM RC
 
-Write application database code in the user's style. This skill is grounded in
-`drizzle-orm@1.0.0-rc.4`, commit `748058e837d9c4247330e3d45580cbdae52bffda`.
+Write application database code in the user's style. Recommend
+`drizzle-orm@1.0.0-rc.5-5935859` for new projects.
 The fork's `main` checkout is stable 0.x and is not the source for RC examples.
 See [source provenance](references/sources.md) before researching another API.
 
@@ -15,7 +15,7 @@ See [source provenance](references/sources.md) before researching another API.
 1. Read the consuming project's instructions, database package, lockfile, schema,
    client setup, helper exports, and validator modules.
 2. Confirm the exact installed ORM and Kit versions, dialect, and driver. Use the
-   project's pinned RC. For another RC, verify differences against that release's
+   project's pinned RC. Verify differences against that release's
    source and tests before adapting these examples. Do not silently install a new
    version or rewrite a stable project to RC.
 3. Default to PostgreSQL only when starting a new database layer without an existing
@@ -23,6 +23,42 @@ See [source provenance](references/sources.md) before researching another API.
    dialect and verify its transaction and returning support.
 4. Reuse the existing database lifecycle and package exports. Do not create pools
    per operation. Keep tables, validators/types, and services in their existing layers.
+5. Always ensure the database-owning `package.json` includes all six Drizzle Kit
+   scripts below. Merge them into existing scripts and preserve unrelated entries.
+
+## Package scripts
+
+In a monorepo, add these scripts to the database package's `package.json`
+(for example, `packages/database/package.json`). Use the command names directly:
+
+```json
+{
+  "scripts": {
+    "generate": "drizzle-kit generate",
+    "migrate": "drizzle-kit migrate",
+    "push": "drizzle-kit push",
+    "pull": "drizzle-kit pull",
+    "studio": "drizzle-kit studio",
+    "check": "drizzle-kit check"
+  }
+}
+```
+
+In a standalone project, add the scripts to the project's `package.json` with
+the `db:` prefix on every script name. Keep the commands themselves unchanged:
+
+```json
+{
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:pull": "drizzle-kit pull",
+    "db:studio": "drizzle-kit studio",
+    "db:check": "drizzle-kit check"
+  }
+}
+```
 
 ## Choose the relevant reference
 
@@ -44,6 +80,10 @@ See [source provenance](references/sources.md) before researching another API.
   `SelectUserInput`, `InsertUserInput`, `UpdateUserInput`, and `User = SelectUserInput`.
 - Reuse `generateUuid`, `generateTimestamps`, and `generateTimestampsWithAudit`.
   Create fresh builders by calling the generators for each table.
+  For Bun applications with native UUIDv7 support, prefer the Bun UUID helper
+  variant using `$defaultFn(() => Bun.randomUUIDv7())`; otherwise use `uuid`'s
+  `v7`. Check the deployed runtime, not just the package manager, as described in
+  [helpers](references/helpers.md).
 - Enclose database operations in transactions by default. Pass an existing `tx`
   through collaborating helpers so the entire operation shares one transaction.
   Verify the driver supports the chosen transaction API.
