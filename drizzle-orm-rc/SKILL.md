@@ -8,23 +8,35 @@ description: Write application database code with Drizzle ORM 1.0 release candid
 Write application database code in the user's style. Recommend
 `drizzle-orm@1.0.0-rc.5-5935859` for new projects.
 The fork's `main` checkout is stable 0.x and is not the source for RC examples.
-See [source provenance](references/sources.md) before researching another API.
+Read [shared production-safety rules](references/production-safety.md) before
+changing database code or tooling. See [source provenance](references/sources.md)
+and [exact rc.5 evidence](references/rc5-evidence.md) before researching another API.
+
+For production-safety reviews, use `drizzle-postgres-safety-review` when installed.
+Review requests are read-only: do not add scripts, install packages, generate
+migrations, or apply implementation conventions as findings. If the review skill
+is unavailable, use the shared safety rules and disclose that the full review
+procedure is unavailable.
 
 ## Establish the target
 
 1. Read the consuming project's instructions, database package, lockfile, schema,
    client setup, helper exports, and validator modules.
-2. Confirm the exact installed ORM and Kit versions, dialect, and driver. Use the
-   project's pinned RC. Verify differences against that release's
-   source and tests before adapting these examples. Do not silently install a new
-   version or rewrite a stable project to RC.
+2. Confirm the exact installed ORM and Kit versions, dialect, and driver. New RC
+   setups use matching exact `1.0.0-rc.5-5935859` pins, without `^` or `~`, as shown
+   in the shared safety rules. Flag ranges, mismatches, or another release; do not
+   silently upgrade an existing project. For an explicitly retained older RC,
+   verify differences against that release's source and tests before adapting
+   these examples. Do not rewrite a stable project to RC.
 3. Default to PostgreSQL only when starting a new database layer without an existing
    dialect. The supplied helpers are PostgreSQL-specific. Preserve an existing
    dialect and verify its transaction and returning support.
 4. Reuse the existing database lifecycle and package exports. Do not create pools
    per operation. Keep tables, validators/types, and services in their existing layers.
-5. Always ensure the database-owning `package.json` includes all six Drizzle Kit
-   scripts below. Merge them into existing scripts and preserve unrelated entries.
+5. When creating database tooling or explicitly asked to configure it, add the
+   Drizzle Kit scripts below to the database-owning `package.json`. Preserve
+   unrelated entries. Do not edit scripts during a review or unrelated query change.
+   Having a script does not authorize running it against a database.
 
 ## Package scripts
 
@@ -66,6 +78,8 @@ the `db:` prefix on every script name. Keep the commands themselves unchanged:
 - UUIDs, timestamps, audit actors: [helpers](references/helpers.md). The bundled
   `assets/helpers/` files are the user's existing helper implementations.
 - Client setup and relational queries: [relations](references/relations.md).
+- RQB undefined filters, postgres-js JSON parameters, and parameter leakage:
+  [exact rc.5 evidence](references/rc5-evidence.md).
 - CRUD, atomic workflows, and soft deletion: [transactions](references/transactions.md).
 
 ## Apply the user's conventions
@@ -84,9 +98,11 @@ the `db:` prefix on every script name. Keep the commands themselves unchanged:
   variant using `$defaultFn(() => Bun.randomUUIDv7())`; otherwise use `uuid`'s
   `v7`. Check the deployed runtime, not just the package manager, as described in
   [helpers](references/helpers.md).
-- Enclose database operations in transactions by default. Pass an existing `tx`
-  through collaborating helpers so the entire operation shares one transaction.
-  Verify the driver supports the chosen transaction API.
+- Enclose related application database operations in transactions by default.
+  Pass an existing `tx` through collaborating helpers so the operation shares one
+  transaction. Verify driver support. This is not a migration rule: concurrent
+  index builds cannot run in a transaction, and separate migration folders do not
+  necessarily commit separately. Follow the shared safety rules.
 - Validate external input once at the boundary. Derive an explicit allowed-field
   request schema from the database schema; server-owned fields must not become
   writable merely because an insert or update schema includes them.
@@ -100,8 +116,9 @@ Check imports and signatures against the pinned RC, then run the consuming
 project's relevant typecheck and tests. For writes, verify rollback on a later
 failure, missing-row behavior, authorization predicates, and default handling.
 For schemas, verify required/defaulted/nullable fields and rejected or stripped
-server-owned fields. Do not run migrations against a live database merely to
-validate generated code.
+server-owned fields. Follow the shared safety rules for migration generation,
+history, and database access. Run schema/data-changing commands only against an
+explicitly confirmed local disposable database, never merely to validate code.
 
 Report what changed, the exact RC used, checks performed, and any unverified
 driver-specific behavior. Distinguish source inspection from compiled examples.

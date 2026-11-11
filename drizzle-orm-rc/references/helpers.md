@@ -58,8 +58,8 @@ export const users = pgTable('users', {
 });
 ```
 
-The exact builder type exports used by the bundled helpers exist in RC.4 under
-`drizzle-orm/pg-core`. Recheck them when changing RC versions rather than copying
+The exact builder type exports used by the bundled helpers were checked in the
+pinned rc.5 `drizzle-orm/pg-core` declarations. Recheck them when changing RC versions rather than copying
 old generic signatures from stable docs. Keep helper return types precise so
 validators retain default/nullability information. Adapt style and imports to
 the target repository; add `uuid` only if the selected runtime needs the fallback and
