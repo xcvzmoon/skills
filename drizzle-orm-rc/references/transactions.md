@@ -1,8 +1,10 @@
 # Transactions and services
 
-Default to an explicit transaction around database operations, including reads
-when supported by the project's driver. Related statements belong in one outer
-transaction. Every statement inside the callback uses `tx`. A helper called
+Default to an explicit transaction around related application database operations,
+including related reads when supported by the project's driver. Do not add a
+transaction to a standalone read without an operation-level reason. Related
+statements belong in one outer transaction. These conventions do not apply to
+concurrent index DDL; follow the [production-safety rules](production-safety.md). Every statement inside the callback uses `tx`. A helper called
 within it receives `tx`; it must not silently switch back to the root `db`.
 
 ```ts

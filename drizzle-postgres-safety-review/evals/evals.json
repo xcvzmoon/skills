@@ -1,0 +1,65 @@
+{
+  "skill_name": "drizzle-postgres-safety-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Review this PostgreSQL PR for deployment safety, read-only. Both Drizzle packages and lockfile resolutions are exactly 1.0.0-rc.5-5935859. drizzle.config.ts:4-6 sets out='packages/db/changes', schema='packages/db/src/tables/*.ts', dialect='postgresql'. The new packages/db/changes/20261010120000_email_index/migration.sql:1 is CREATE INDEX users_email_idx ON users(email);. users was created on main and serves production traffic. No lock_timeout is set. Do not connect to a database or generate SQL. Explain evidence for and against the hazard and use the review verdict format.",
+      "expected_output": "Discovers the configured paths rather than assuming drizzle/. Reports no-go with a confirmed write-blocking index build on an existing table and missing lock acquisition timeout. Proposes concurrent indexing only with the human runner decision, not an invented transactional workaround. Does not modify files or connect.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Review a PR where both Drizzle packages are exactly the baseline. Config points to database/changes and database/schema.ts, PostgreSQL. The only new SQL is database/changes/20261010121000_events/migration.sql:1 CREATE TABLE events(id uuid PRIMARY KEY, kind text); and :2 CREATE INDEX events_kind_idx ON events(kind);. No statement populates events, and no earlier migration creates it. The schema matches and no callers change. Is the ordinary index build a production blocker? Treat the provided evidence as the complete diff.",
+      "expected_output": "Refutes the size-dependent index-build hazard because events is empty by construction. Does not demand a concurrent build or claim the empty table refutes unrelated invalid SQL. Returns go with no material gaps, using a budget count.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Review these new migrations against exact rc.5. src/deploy.ts:20 calls the node-postgres ORM migrate(db, { migrationsFolder: 'db/changes' }). db/changes/20261010122000_index/migration.sql:1 creates an index CONCURRENTLY on existing users. db/changes/20261010123000_enum/migration.sql:1 adds 'archived' to status. db/changes/20261010124000_use_enum/migration.sql:1 inserts a row using 'archived'. All three folders are pending in the same deploy. Package source confirms pg-core/async/session.js wraps all pending statements in one db.transaction. Review only; do not suggest editing the migrator or adding COMMIT to SQL.",
+      "expected_output": "Returns no-go. Confirms concurrent-index failure in the verified runner and enum-use failure despite separate migration folders because no commit separates them. Asks how the project applies concurrent index builds and requires separate committed runs for the enum. Does not mistake statement breakpoints for commits.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Review this complete baseline-pinned PostgreSQL app-only diff. src/users.ts:14 adds db.query.users.findMany({ where: { tenantId: input.tenantId } });. The request schema at src/input.ts:5 makes tenantId optional; it is an authorization boundary. src/events.ts:22 changes a postgres-js jsonb insert to payload: JSON.stringify(input.payload), where payload is an object. No DDL changed. Identify runtime failures and safe fixes without generating migrations.",
+      "expected_output": "Confirms undefined RQB filter failure and postgres-js double encoding with evidence. Requires a validated trusted tenant value, not EmptyFilter for authorization. Explains EmptyFilter only for intentional optional no-op filters. Does not manufacture a missing-migration finding for an app-only diff.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "Review a complete PR whose only database schema change is replacing a TypeScript alias and adding a Drizzle $onUpdateFn(() => new Date()) runtime hook. It changes no SQL columns, constraints, indexes, or server defaults, and app queries still match the existing schema. Config and exact package pins are unchanged and known. There is no new migration folder. Do not run generate just to check.",
+      "expected_output": "Investigates and refutes the missing-migration lead because these changes require no persisted DDL. Does not treat $onUpdateFn as a PostgreSQL trigger. Returns go if there is no other hazard, without writing files or installing dependencies.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "Review a baseline-pinned node-postgres PR that adds logger.error(error) at src/service.ts:48 for failed user inserts containing email and a secret reset token. No scrubbing is configured in src/logging.ts:8-20. The pinned errors.js constructor includes query parameters in the message and .params; paramsInErrors is absent from the package declarations. The developer says logging is safe because paramsInErrors was not enabled. Do not print example secrets. Config and schema paths are known and unchanged.",
+      "expected_output": "Rejects the opt-in premise and confirms sensitive parameter exposure through the new logging path. Recommends scrubbing or safe error serialization including messages, params, causes, and telemetry where applicable. Does not invent paramsInErrors:false as a supported fix.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "Perform a fresh re-review of head B using the prior report for head A. The report confirmed a blocking CREATE INDEX at db/changes/20261010120000_email/migration.sql:3. B replaces that line with CREATE INDEX CONCURRENTLY, leaving every other cited source unchanged. src/deploy.ts:12 still runs the verified baseline node-postgres migrator, whose pending migrations share a transaction. Scan A..B only for new hazards, map old citations, and do not reuse the old conclusion as if the statement were unchanged.",
+      "expected_output": "Starts a fresh budget, loads the prior report, refutes the prior ordinary-index-build trajectory using the replacement line, and opens a new confirmed concurrent-index transaction failure. Returns no-go and asks for the project's concurrent-index execution policy. Does not claim the fix makes the deploy safe.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "Review this PR, do not edit it. package.json:18 changes drizzle-orm to ^1.0.0-rc.5-5935859 while drizzle-kit at :24 remains exactly 1.0.0-rc.5-5935859; the lockfile currently resolves both to that exact release. The only other changes are comments. Separately, drizzle.config.ts contains credentials, so inspect only out/schema/dialect through a redacting static reader. Do not print credentials or install a corrected version.",
+      "expected_output": "Treats the changed dependency range as in-scope and a confirmed exact-pin policy blocker even though current resolutions match. Returns no-go without claiming a verified runtime mismatch. Does not stop at No database impact, expose config credentials, edit scripts, or install packages.",
+      "files": []
+    },
+    {
+      "id": 9,
+      "prompt": "Review the complete PR diff: only docs/database.md and tests/users.test.ts changed. No production code, dependencies, Drizzle config, schema, relations, or migrations changed. Do not run database commands.",
+      "expected_output": "Stops after scope determination and replies exactly No database impact. Does not add scripts, install packages, generate migrations, or connect.",
+      "files": []
+    },
+    {
+      "id": 10,
+      "prompt": "We have reached 19 tool calls in a production-safety review. Package pins and config paths were checked, but the new migration directory has not been read and no trajectory is confirmed yet. Finish now without more investigation. Do not interpret the absence of investigated findings as evidence of safety.",
+      "expected_output": "Stops without another tool call and reports needs-review with budget used 19/20. Lists unread migrations as a material gap. Does not return go or invent findings.",
+      "files": []
+    }
+  ]
+}

@@ -9,14 +9,14 @@
     },
     {
       "id": 2,
-      "prompt": "In our RC.4 node-postgres app, implement a service that creates a project and its first membership atomically. Reuse existing db and audit-column generators. Actor and tenant come from authenticated context. Validate request input with Valibot. A missing membership result should abort both inserts. Show how a lower-level membership helper participates in the same transaction.",
+      "prompt": "In our node-postgres app pinned to drizzle-orm and drizzle-kit 1.0.0-rc.5-5935859, implement a service that creates a project and its first membership atomically. Reuse existing db and audit-column generators. Actor and tenant come from authenticated context. Validate request input with Valibot. A missing membership result should abort both inserts. Show how a lower-level membership helper participates in the same transaction.",
       "expected_output": "One outer db.transaction with all statements and membership helper using the same tx; input parsed once; actor and tenant assigned from trusted context; failure thrown through callback; returned rows narrowed without assertions; application types derived from Valibot; meaningful rollback validation.",
       "files": []
     },
     {
       "id": 3,
-      "prompt": "Configure users/posts relational queries in a new PostgreSQL database package pinned to RC.4. We use pg Pool. Create the relations and client exports, plus a transaction-wrapped read of a user and their posts. Derive its response type from Valibot schemas rather than Drizzle inference. Include the shutdown lifecycle.",
-      "expected_output": "defineRelations with RC from/to syntax; drizzle object config with client and relations; verified RC relational options; tx used for the read; composed Valibot response schema with correct relation shape/nullability; InferOutput response type; pool reused and closed at shutdown.",
+      "prompt": "Configure users/posts relational queries in a new PostgreSQL database package with drizzle-orm and drizzle-kit both pinned exactly to 1.0.0-rc.5-5935859. We use pg Pool. Create the relations and client exports, plus a transaction-wrapped read of a user and their posts. Derive its response type from Valibot schemas rather than Drizzle inference. Include the shutdown lifecycle and the exact package pins. Explain handling for optional RQB filters without weakening tenant authorization.",
+      "expected_output": "defineRelations with RC from/to syntax; drizzle object config with client and relations; verified RC relational options; tx used for the read; composed Valibot response schema with correct relation shape/nullability; InferOutput response type; pool reused and closed at shutdown; matching exact rc.5 ORM/Kit pins; optional filters omitted or represented with EmptyFilter and required authorization values rejected when absent.",
       "files": []
     },
     {
