@@ -7,6 +7,7 @@ Installable agent skills distilled from working software and maintained engineer
 | [`release-script-generator`](./release-script-generator/)             | Repository-aware release scripts across forges, version schemes, registries, and artifact workflows                            |
 | [`github-repository-files`](./github-repository-files/)               | Repository-adaptive workflows, templates, Dependabot, and other `.github` files                                                |
 | [`vite-plus-workspace`](./vite-plus-workspace/)                       | Vite+ project and monorepo toolchain configuration                                                                             |
+| [`motion-v`](./motion-v/)                                             | Vue/Nuxt animation with motion-v, including fork-specific directives, Reorder, scroll, presence, and view transitions          |
 | [`nuxt-tauri-app`](./nuxt-tauri-app/)                                 | Coordinated Nuxt and Tauri development, builds, capabilities, and versions                                                     |
 | [`nitro-service-architecture`](./nitro-service-architecture/)         | Typed, authenticated, persistence-backed standalone Nitro services                                                             |
 | [`typesafe-runtime-config`](./typesafe-runtime-config/)               | Nested environment configuration with runtime validation and inferred types                                                    |

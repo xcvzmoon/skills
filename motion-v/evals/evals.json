@@ -1,0 +1,34 @@
+{
+  "skill_name": "motion-v",
+  "evals": [
+    {
+      "id": 1,
+      "name": "nuxt-preset",
+      "prompt": "In a Nuxt app using the xcvzmoon motion-vue fork (motion-v 2.12.0), configure a global v-fade-in preset that reveals content once on entry. Show nuxt.config.ts and a minimal page. Explain defaults, which imports are needed, whether function variants can live in module presets, and SSR/reduced-motion checks. Do not modify the app.",
+      "expected_output": "Working Nuxt motionV config, serializable preset, correct in-view options, accurate auto-import limits and accessible SSR guidance.",
+      "files": [],
+      "assertions": [
+        "Uses motion-v/nuxt and the motionV config key.",
+        "Uses presets with whileInView and inViewOptions.once, and v-fade-in on a native element.",
+        "Explains that module presets are JSON serialized and function variants need a handwritten plugin.",
+        "Correctly distinguishes directive default false from component/utility defaults true.",
+        "Includes concrete SSR and reduced-motion verification."
+      ]
+    },
+    {
+      "id": 2,
+      "name": "accessible-reorder",
+      "prompt": "Build a self-contained Vue SFC for a reorderable list using xcvzmoon/motion-vue motion-v 2.12.0. It should support pointer and keyboard sorting, cancellation, visible focus and an explanation of axis auto-detection, update callback arguments, scroll/RTL behavior, stable IDs, and reduced motion. Do not add a second drag library or duplicate built-in keyboard handlers. Do not modify the app.",
+      "expected_output": "Fork-correct Reorder SFC with v-model:values, stable values, keyboard instructions/focus, canonical reducedMotion, accurate fork behaviors.",
+      "files": [],
+      "assertions": [
+        "Binds values with v-model:values or :values plus @update:values and writes new order back.",
+        "Uses stable item keys and values and provides visible keyboard focus.",
+        "Explains built-in Space/arrows/Escape handling without adding duplicate handlers.",
+        "Explains omitted-axis detection including xy grid support.",
+        "Describes update:values(newOrder, moved) and updates during drag.",
+        "Addresses reducedMotion, RTL and scrolling without claiming unsupported cross-container transfers."
+      ]
+    }
+  ]
+}
