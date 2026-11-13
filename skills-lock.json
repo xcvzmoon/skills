@@ -1,17 +1,23 @@
 {
-  "version": 1,
+  "version": 2,
   "skills": {
     "install-anti-slop": {
       "source": "dmmulroy/anti-slop",
       "sourceType": "github",
       "skillPath": "skills/install-anti-slop/SKILL.md",
-      "computedHash": "91e871213a7fcd86f68c288480cc80c9d5ec440aa9a77d0185321667c8f42ab7"
+      "computedHash": "86caa92c57b477f68acd95a0a14042e98d311ec89e5153226aeaa3fa81b24cfd"
+    },
+    "skill-creator": {
+      "source": "poteto/noodle",
+      "sourceType": "github",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "computedHash": "209caf49b5d29ebd30c17bc55b060b8c473f404c3d77ee71dc4fbc9fa97c8ca2"
     },
     "unslop": {
       "source": "poteto/noodle",
       "sourceType": "github",
       "skillPath": ".agents/skills/unslop/SKILL.md",
-      "computedHash": "96ca1f318c41bd0e4adaffc1c881a85555a736b5824d1a9a6ee6139d5851774a"
+      "computedHash": "15a9ae72c4dc0cf39f9f97aa4de93e4f639e5e319ebda79f03be03dcf9064143"
     }
   }
 }
