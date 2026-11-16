@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Commit'
+  short_description: 'Write focused messages and stage coherent commits'
+  default_prompt: 'Use $commit to review task-related changes and create focused commits.'
