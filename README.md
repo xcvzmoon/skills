@@ -4,6 +4,7 @@ Installable agent skills distilled from working software and maintained engineer
 
 | Skill                                                                 | Use it for                                                                                                                     |
 | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| [`commit`](./commit/)                                                 | Focused Git commits and messages with explicit staging and independently reviewable changes                                    |
 | [`release-script-generator`](./release-script-generator/)             | Repository-aware release scripts across forges, version schemes, registries, and artifact workflows                            |
 | [`github-repository-files`](./github-repository-files/)               | Repository-adaptive workflows, templates, Dependabot, and other `.github` files                                                |
 | [`vite-plus-workspace`](./vite-plus-workspace/)                       | Vite+ project and monorepo toolchain configuration                                                                             |
