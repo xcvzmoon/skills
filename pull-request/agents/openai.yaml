@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Pull Request'
+  short_description: 'Write evidence-backed GitHub PRs and GitLab MRs'
+  default_prompt: 'Use $pull-request to prepare a PR or MR description with an issue-linked summary and verification evidence.'
