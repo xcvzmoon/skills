@@ -1,0 +1,4 @@
+interface:
+  display_name: 'Vue/Nuxt Convention'
+  short_description: 'Apply focused TypeScript repository conventions'
+  default_prompt: 'Use $vue-nuxt-convention while implementing this change.'

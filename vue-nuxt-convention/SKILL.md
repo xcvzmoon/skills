@@ -1,9 +1,9 @@
 ---
-name: xcvzmoon-code-conventions
+name: vue-nuxt-convention
 description: Apply xcvzmoon's coding, editing, TypeScript, naming, validation, and agent-operation conventions while implementing, refactoring, reviewing, or documenting code in a repository that adopts these rules. Use broadly for coding work in such repositories; repository and explicit user instructions take precedence.
 ---
 
-# xcvzmoon Code Conventions
+# Vue/Nuxt Convention
 
 Apply these rules throughout the requested change. Explicit user instructions and more specific repository instructions take precedence when they conflict.
 

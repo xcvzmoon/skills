@@ -17,7 +17,7 @@ Installable agent skills distilled from working software and maintained engineer
 | [`typescript-quality-gates`](./typescript-quality-gates/)             | Type-aware quality policy and evidence-driven custom lint rules                                                                |
 | [`oxc-project-config`](./oxc-project-config/)                         | Reusable Oxfmt, Oxlint, and required `anti-slop` project policy                                                                |
 | [`typescript-git-hooks`](./typescript-git-hooks/)                     | Adaptive Lefthook checks for TypeScript repositories without Vite+                                                             |
-| [`xcvzmoon-code-conventions`](./xcvzmoon-code-conventions/)           | Shared editing, TypeScript, validation, toolchain, and agent-operation rules                                                   |
+| [`vue-nuxt-convention`](./vue-nuxt-convention/)                       | Shared editing, TypeScript, validation, toolchain, and agent-operation rules                                                   |
 | [`drizzle-orm-rc`](./drizzle-orm-rc/)                                 | Drizzle ORM RC database code with Valibot schemas and types, reusable UUID and audit helpers, and transaction-based operations |
 | [`drizzle-postgres-safety-review`](./drizzle-postgres-safety-review/) | Read-only production-safety reviews for Drizzle rc.5 and PostgreSQL migrations, queries, and deployments                       |
 
