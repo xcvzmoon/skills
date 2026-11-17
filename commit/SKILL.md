@@ -7,6 +7,12 @@ description: Write commit messages and create focused Git commits when the user 
 
 Follow the commit rules below. Explicit user instructions and applicable repository instructions take precedence. Message style must never determine which changes are bundled together.
 
+## Model preference
+
+Prefer GPT-6.1 Sol (`gpt-6.1-sol`) with low reasoning effort for this skill when the runtime supports selecting that model and effort. Use the runtime's supported model-selection or delegation controls; pass these skill instructions and the relevant task context if delegating. A delegated worker should perform the task directly rather than delegate again.
+
+If the model, low reasoning effort, or a supported way to select them is unavailable, use the currently selected model and its current settings. Do not block the task, change persistent model settings, or claim a model switch that did not occur.
+
 ## Authorization and scope
 
 - Commit or push only when explicitly asked. A request to write a message authorizes a draft only; a request to commit does not authorize pushing.
