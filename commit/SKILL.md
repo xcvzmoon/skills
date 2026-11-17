@@ -40,12 +40,13 @@ For example, a SQL table rename and its required query updates belong together. 
 Follow the [Conventional Commits specification](https://www.conventionalcommits.org/en/v1.0.0/#specification), unless the repository requires another message convention:
 
 ```text
-type(scope): Describe one specific change
+type(scope): describe one specific change
 
 Explain what changed and why it was needed.
 ```
 
 - Choose the type from the actual change, such as `feat`, `fix`, `refactor`, `docs`, `test`, `build`, `ci`, `perf`, `style`, or `chore`. Use a scope when it identifies the affected module clearly; omit it when it adds no useful information.
+- Write the entire subject in lowercase, including the type, optional scope, and description after the colon, such as `chore(example): lowercase blah blah blah`.
 - Write a concise, imperative subject describing the concrete result. Avoid vague subjects such as “update files” or “fix issues.”
 - Include a short body explaining what and why unless the user or repository requires another format. Describe behavior and rationale without repeating a file list or inventing motivations.
 - Mark breaking changes according to the repository's convention when the diff establishes a breaking contract change. Do not infer one merely from an internal rename.
@@ -55,7 +56,7 @@ Explain what changed and why it was needed.
 Example:
 
 ```text
-fix(auth): Reject expired password reset tokens
+fix(auth): reject expired password reset tokens
 
 Check token expiry before updating the password so an expired reset
 link cannot change account credentials.
