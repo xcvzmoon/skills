@@ -18,22 +18,23 @@ If the model, low reasoning effort, or a supported way to select them is unavail
 - Commit or push only when explicitly asked. A request to write a message authorizes a draft only; a request to commit does not authorize pushing.
 - Use the main worktree unless the user explicitly asks for a new worktree. Do not create a branch or worktree just to commit.
 - Include all task-related changes, including relevant changes already present before this session. Leave unrelated changes alone, regardless of who authored them.
+- Treat “commit all” as authorization to include the full working-tree diff. Apply the same split rules unless the user explicitly asks for a single commit.
 - Never add co-author or agent-attribution trailers.
 
 ## Inspect and split
 
 Read the repository instructions and inspect `git status --short`, the staged diff, the unstaged diff, and task-related untracked files. Inspect actual file contents where the diff alone is insufficient. Existing staged changes are not automatically part of the requested task.
 
-Plan the smallest coherent, independently reviewable commits:
+Before staging, assign each independently reviewable change to a commit. For a mixed diff, tell the user the proposed commit sequence and proceed. Plan each commit around one outcome:
 
 - Give each commit one specific purpose. Broad labels such as “refactor persistence” or “update docs” do not justify bundling independent changes.
 - Separate independent modules and concerns, including SQL table renames, declaration renames, dependency cleanup, lint rules, tests, and documentation.
 - Keep imports, types, call sites, and tests together when they are required for a change to work. Do not split a required companion change merely because it lives in another file or category.
-- Split independent changes within the same file into separate hunks.
+- Stage independent changes within the same file with their corresponding commits. Split shared manifest, workspace, and lockfile updates by the change that needs them. Regenerate the lockfile against each intermediate workspace layout when needed.
 - Order dependent commits so each intermediate commit remains valid, with prerequisites before the changes that need them.
 - Do not combine changes to reduce the number of commits. If describing a commit's purpose requires multiple independent actions, split it further.
 
-For example, a SQL table rename and its required query updates belong together. An independent declaration rename, unused dependency removal, or documentation correction belongs in its own commit even if all appeared during the same task.
+For example, a SQL table rename and its required query updates belong together. An independent declaration rename, unused dependency removal, or documentation correction belongs in its own commit even if all appeared during the same task. In a workspace rewrite, commit the legacy removal and each new app scaffold separately when they can stand alone. Include the matching workspace and dependency changes in each commit.
 
 ## Write the message
 
@@ -69,7 +70,7 @@ When asked only for a message, inspect the relevant changes and return the draft
 For each authorized commit:
 
 1. Stage explicit paths or hunks for its single purpose. Avoid blanket staging such as `git add .` or `git add -A`.
-2. Review the complete staged diff before committing, including any pre-existing staged content. Ensure it contains only the intended change and its required companions. If unrelated staged work is present, preserve its content and staging state; isolate the intended commit or ask a focused question if ownership cannot be resolved safely.
+2. Review the complete staged diff before committing, including any pre-existing staged content. Ask whether a reviewer could accept one part and defer another while keeping the project valid. If yes, split the staged changes before committing. If unrelated staged work is present, preserve its content and staging state; isolate the intended commit or ask a focused question if ownership cannot be resolved safely.
 3. Run required repository checks and validation appropriate to the change. Check staged whitespace with `git diff --cached --check`. Ensure validation or formatting has not introduced unrelated changes into the commit.
 4. Commit with the reviewed message. For multiline messages, use a message file or separately quoted subject and body arguments that preserve actual newlines and avoid shell interpolation.
 5. Inspect the resulting commit and remaining Git status before proceeding to the next commit.
